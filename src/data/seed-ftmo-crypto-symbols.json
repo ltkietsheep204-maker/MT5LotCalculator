@@ -1,0 +1,50 @@
+[
+  {
+    "symbol": "BTCUSD",
+    "displayName": "Bitcoin vs US Dollar",
+    "assetClass": "crypto",
+    "platform": "MT5",
+    "contractSize": 1,
+    "minLot": 0.01,
+    "maxLot": 5,
+    "lotStep": 0.01,
+    "commissionType": "percent_notional",
+    "commissionValue": 0.000325,
+    "profitCurrency": "USD",
+    "source": "seed",
+    "isCompleteForCalculation": true,
+    "warnings": []
+  },
+  {
+    "symbol": "ETHUSD",
+    "displayName": "Ethereum vs US Dollar",
+    "assetClass": "crypto",
+    "platform": "MT5",
+    "contractSize": 10,
+    "minLot": 0.01,
+    "maxLot": 5,
+    "lotStep": 0.01,
+    "commissionType": "percent_notional",
+    "commissionValue": 0.000325,
+    "profitCurrency": "USD",
+    "source": "seed",
+    "isCompleteForCalculation": true,
+    "warnings": []
+  },
+  {
+    "symbol": "SOLUSD",
+    "displayName": "Solana vs US Dollar",
+    "assetClass": "crypto",
+    "platform": "MT5",
+    "contractSize": 100,
+    "minLot": 0.01,
+    "maxLot": 5,
+    "lotStep": 0.01,
+    "commissionType": "percent_notional",
+    "commissionValue": 0.000325,
+    "profitCurrency": "USD",
+    "source": "seed",
+    "isCompleteForCalculation": true,
+    "warnings": []
+  }
+]
