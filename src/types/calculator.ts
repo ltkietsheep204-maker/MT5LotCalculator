@@ -29,6 +29,7 @@ export type LotCalculationResult = {
   totalEstimatedRisk: number;
   effectiveRiskPercent: number;
   estimatedProfitAtTp: number;
+  estimatedOvernightSwap: number;
   riskRewardRatio?: number;
   minimumExecutableLot?: number;
   minimumLotRisk?: number;

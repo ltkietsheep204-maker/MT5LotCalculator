@@ -61,6 +61,12 @@ export function ResultPanel({ result, symbol }: Props) {
               <Copy className="h-4 w-4" />
             </Button>
           </div>
+          <div className="mt-3 rounded-md bg-background/70 px-3 py-2 text-sm">
+            <div className="text-muted-foreground">Estimated Overnight Swap</div>
+            <div className="mt-1 font-medium">
+              {result ? `$${money.format(result.estimatedOvernightSwap)}` : "--"}
+            </div>
+          </div>
         </div>
 
         {result?.warnings.length ? (

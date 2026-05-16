@@ -277,6 +277,25 @@ describe("calculateLotSize", () => {
     expect(result.riskRewardRatio).toBe(3);
   });
 
+  it("calculates overnight swap for percentage-based crypto symbols", () => {
+    const result = calculateLotSize(
+      {
+        accountBalance: 10000,
+        riskMode: "fixed",
+        riskAmount: 100,
+        symbol: "BTCUSD",
+        direction: "long",
+        entryPrice: 50000,
+        stopLossPrice: 49900,
+        includeCommission: false
+      },
+      completeSpec
+    );
+
+    expect(result.finalLot).toBe(1);
+    expect(result.estimatedOvernightSwap).toBeCloseTo(-41.6666667, 6);
+  });
+
   it("explains when minimum lot exceeds allowed risk after commission", () => {
     const result = calculateLotSize(
       {

@@ -3,6 +3,22 @@ import type { FTMOSymbolSpec } from "@/types/symbol";
 import { calculateCommission } from "./calculateCommission";
 import { clampLot, roundLotDown } from "./roundLot";
 
+const PERCENTAGE_SWAP_RATES: Record<string, number> = {
+  BTCUSD: -30,
+  ETHUSD: -30,
+  SOLUSD: -30
+};
+
+function calculateOvernightSwap(symbol: string, lot: number, contractSize: number | undefined, entryPrice: number) {
+  const swapRate = PERCENTAGE_SWAP_RATES[symbol];
+  if (!swapRate || lot <= 0 || !contractSize || contractSize <= 0 || entryPrice <= 0) {
+    return 0;
+  }
+
+  const notional = lot * contractSize * entryPrice;
+  return (notional * swapRate) / 100 / 360;
+}
+
 function requirePositive(value: number | undefined, warning: string, warnings: string[]) {
   if (value === undefined || value === null || !Number.isFinite(value) || value <= 0) {
     warnings.push(warning);
@@ -85,6 +101,7 @@ export function calculateLotSize(
       totalEstimatedRisk: 0,
       effectiveRiskPercent: 0,
       estimatedProfitAtTp: 0,
+      estimatedOvernightSwap: 0,
       riskRewardRatio: undefined,
       minimumExecutableLot: symbolSpec.minLot,
       minimumLotRisk: undefined,
@@ -177,6 +194,12 @@ export function calculateLotSize(
   const estimatedProfitAtTp = takeProfitDistance > 0
     ? finalLot * takeProfitDistance * ((symbolSpec.contractSize as number | undefined) ?? 0)
     : 0;
+  const estimatedOvernightSwap = calculateOvernightSwap(
+    input.symbol,
+    finalLot,
+    symbolSpec.contractSize,
+    input.entryPrice
+  );
   const riskRewardRatio =
     totalEstimatedRisk > 0 && estimatedProfitAtTp > 0 ? estimatedProfitAtTp / totalEstimatedRisk : undefined;
 
@@ -194,6 +217,7 @@ export function calculateLotSize(
     totalEstimatedRisk,
     effectiveRiskPercent: input.accountBalance > 0 ? (totalEstimatedRisk / input.accountBalance) * 100 : 0,
     estimatedProfitAtTp,
+    estimatedOvernightSwap,
     riskRewardRatio,
     minimumExecutableLot: minLot,
     minimumLotRisk,
